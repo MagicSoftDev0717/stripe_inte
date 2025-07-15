@@ -1,12 +1,12 @@
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-
+const ALLOWED_ORIGIN = 'https://www.correctthecontract.com';
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': 'https://www.correctthecontract.com',
+        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS'
       },
@@ -25,14 +25,14 @@ exports.handler = async (event) => {
         quantity: 1,
       }],
       customer_email: email,
-      success_url: 'https://www.correctthecontract.com/artist?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'https://www.correctthecontract.com/membership-cancel',
+      success_url: `${ALLOWED_ORIGIN}/artist?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${ALLOWED_ORIGIN}/membership-cancel`,
     });
 
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': 'https://www.correctthecontract.com',
+        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
       },
@@ -43,7 +43,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers: {
-        'Access-Control-Allow-Origin': 'https://www.correctthecontract.com',
+        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
       },
